@@ -105,7 +105,35 @@
             font-size: 20px;
             border-bottom: 2px solid var(--border);
             padding-bottom: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* Mobile Scroll Hint */
+        .scroll-hint {
+            display: none;
+            font-size: 12px;
+            color: var(--text-light);
+            text-align: right;
+            margin-bottom: 8px;
+            font-style: italic;
+            animation: slidePulse 2s infinite;
+        }
+
+        @keyframes slidePulse {
+            0%, 100% { opacity: 0.6; transform: translateX(0); }
+            50% { opacity: 1; transform: translateX(-5px); }
+        }
+
+        @media (max-width: 768px) {
+            .scroll-hint {
+                display: block;
+            }
+            body {
+                padding: 20px 10px;
+            }
+            .tab-content {
+                padding: 20px 15px;
+            }
         }
 
         /* Tables */
@@ -113,6 +141,7 @@
             overflow-x: auto;
             border-radius: 8px;
             border: 1px solid var(--border);
+            position: relative;
         }
 
         table {
@@ -126,9 +155,47 @@
             border-bottom: 1px solid var(--border);
         }
 
+        /* Sticky First Column Setup */
         th:first-child, td:first-child {
             text-align: left;
             font-weight: 600;
+            position: sticky;
+            left: 0;
+            z-index: 1;
+        }
+        
+        th:first-child {
+            background-color: var(--secondary);
+            z-index: 2; /* Needs to sit above the scrolling cells */
+        }
+        
+        td:first-child {
+            background-color: white;
+        }
+
+        /* Maintain background colors for sticky column matching row states */
+        tr:nth-child(even) td:first-child {
+            background-color: #f8fafc;
+        }
+
+        tr:hover td:first-child {
+            background-color: #f1f5f9;
+        }
+
+        tr.team-row td:first-child {
+            background-color: #e0f2fe !important;
+        }
+
+        /* Floating Shadow for Sticky Column */
+        th:first-child::after, td:first-child::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: -6px;
+            bottom: -1px;
+            width: 6px;
+            background: linear-gradient(to right, rgba(0,0,0,0.08), transparent);
+            pointer-events: none;
         }
         
         th:not(:first-child), td:not(:first-child) {
@@ -283,6 +350,7 @@
 
     <div id="batting" class="tab-content active">
         <h2>Season Batting Statistics</h2>
+        <div class="scroll-hint">Swipe to view more stats <span>→</span></div>
         <div class="table-wrapper">
             <table id="battingTable">
                 <thead>
@@ -306,6 +374,7 @@
 
     <div id="pitching" class="tab-content">
         <h2>Season Pitching Statistics</h2>
+        <div class="scroll-hint">Swipe to view more stats <span>→</span></div>
         <div class="table-wrapper">
             <table id="pitchingTable">
                 <thead>
@@ -344,6 +413,7 @@
             <div class="profile-grid">
                 <div class="profile-section" id="profileBattingSection">
                     <h3>Batting Profile</h3>
+                    <div class="scroll-hint">Swipe to view more stats <span>→</span></div>
                     <div class="table-wrapper">
                         <table>
                             <thead>
@@ -359,6 +429,7 @@
 
                 <div class="profile-section" id="profilePitchingSection">
                     <h3>Pitching Profile</h3>
+                    <div class="scroll-hint">Swipe to view more stats <span>→</span></div>
                     <div class="table-wrapper">
                         <table>
                             <thead>
@@ -548,7 +619,6 @@
 
         document.getElementById("profileName").textContent = playerName;
         
-        // Inject the blurb
         const blurbText = playerScoutingReports[playerName] || "No scouting report available for this player.";
         document.getElementById("profileBlurb").textContent = blurbText;
         
@@ -584,7 +654,6 @@
         profileDiv.style.display = "block";
     }
 
-    // Initialize the page
     window.onload = () => {
         renderTables();
         populatePlayerDropdown();
