@@ -155,8 +155,9 @@
             border-bottom: 1px solid var(--border);
         }
 
-        /* Sticky First Column Setup */
-        th:first-child, td:first-child {
+        /* Sticky First Column Setup - Strictly scoped to main tables */
+        #battingTable th:first-child, #battingTable td:first-child,
+        #pitchingTable th:first-child, #pitchingTable td:first-child {
             text-align: left;
             font-weight: 600;
             position: sticky;
@@ -164,30 +165,32 @@
             z-index: 1;
         }
         
-        th:first-child {
+        #battingTable th:first-child, #pitchingTable th:first-child {
             background-color: var(--secondary);
-            z-index: 2; /* Needs to sit above the scrolling cells */
+            z-index: 2; 
         }
         
-        td:first-child {
+        #battingTable td:first-child, #pitchingTable td:first-child {
             background-color: white;
         }
 
-        /* Maintain background colors for sticky column matching row states */
-        tr:nth-child(even) td:first-child {
+        #battingTable tr:nth-child(even) td:first-child,
+        #pitchingTable tr:nth-child(even) td:first-child {
             background-color: #f8fafc;
         }
 
-        tr:hover td:first-child {
+        #battingTable tr:hover td:first-child,
+        #pitchingTable tr:hover td:first-child {
             background-color: #f1f5f9;
         }
 
-        tr.team-row td:first-child {
+        #battingTable tr.team-row td:first-child,
+        #pitchingTable tr.team-row td:first-child {
             background-color: #e0f2fe !important;
         }
 
-        /* Floating Shadow for Sticky Column */
-        th:first-child::after, td:first-child::after {
+        #battingTable th:first-child::after, #battingTable td:first-child::after,
+        #pitchingTable th:first-child::after, #pitchingTable td:first-child::after {
             content: "";
             position: absolute;
             top: 0;
@@ -201,6 +204,16 @@
         th:not(:first-child), td:not(:first-child) {
             text-align: right;
             font-variant-numeric: tabular-nums;
+        }
+
+        /* Standardize left-alignment for profile table headers */
+        #profileBattingBody td:first-child, #profilePitchingBody td:first-child,
+        .profile-section th:first-child {
+            text-align: right;
+            font-weight: normal;
+        }
+        .profile-section th:first-child {
+            text-align: right;
         }
 
         th {
@@ -313,6 +326,7 @@
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            min-width: 0; /* FIX: Prevents grid items from expanding beyond viewport */
         }
 
         .profile-section h3 {
