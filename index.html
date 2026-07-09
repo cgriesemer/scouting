@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medina Valley Scouting Package</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        :root {
+            --primary-dark: #1e293b;
+            --primary: #0f172a;
+            --secondary: #f8fafc;
+            --accent: #3b82f6;
+            --text-main: #334155;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --bg: #f1f5f9;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 24px;
+            text-align: center;
+            border-bottom: 4px solid var(--accent);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background-color: var(--secondary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab:hover {
+            color: var(--primary);
+            background-color: #f1f5f9;
+        }
+
+        .tab.active {
+            background-color: white;
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 32px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            font-size: 20px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            white-space: nowrap;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th:first-child, td:first-child {
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        th:not(:first-child), td:not(:first-child) {
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+
+        th {
+            background-color: var(--secondary);
+            color: var(--text-light);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        th:hover {
+            background-color: #e2e8f0;
+            color: var(--primary);
+        }
+
+        th .sort-icon {
+            font-size: 10px;
+            margin-left: 6px;
+            opacity: 0.3;
+        }
+
+        th.active-sort {
+            color: var(--accent);
+        }
+
+        th.active-sort .sort-icon {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        tr:hover {
+            background-color: #f1f5f9;
+        }
+
+        tr.team-row {
+            font-weight: 700;
+            background-color: #e0f2fe !important;
+            color: #0369a1;
+            border-top: 2px solid #bae6fd;
+        }
+
+        /* Profile Section */
+        .player-selector {
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        select {
+            padding: 12px 16px;
+            font-size: 15px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background-color: white;
+            color: var(--text-main);
+            outline: none;
+            min-width: 250px;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        #profileName {
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 16px;
+            border-bottom: none;
+        }
+
+        .player-blurb {
+            font-size: 15px;
+            color: var(--text-main);
+            background-color: var(--secondary);
+            padding: 16px 20px;
+            border-left: 4px solid var(--accent);
+            border-radius: 4px;
+            margin-bottom: 24px;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media (min-width: 768px) {
+            .profile-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .profile-section {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .profile-section h3 {
+            margin-top: 0;
+            font-size: 16px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .profile-section table {
+            font-size: 14px;
+        }
+        
+        .profile-section th, .profile-section td {
+            padding: 10px 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Medina Valley Scouting Package</h1>
+    </header>
+
+    <div class="tabs">
+        <div class="tab active" onclick="switchTab('batting')">Batting Stats</div>
+        <div class="tab" onclick="switchTab('pitching')">Pitching Stats</div>
+        <div class="tab" onclick="switchTab('players')">Player Profiles</div>
+    </div>
+
+    <div id="batting" class="tab-content active">
+        <h2>Season Batting Statistics</h2>
+        <div class="table-wrapper">
+            <table id="battingTable">
+                <thead>
+                    <tr id="battingHeaders">
+                        <th onclick="sortTable('batting', 'Player')">Player <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('batting', 'GP')">GP <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('batting', 'AB')">AB <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('batting', 'R')">R <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('batting', 'H')">H <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('batting', 'RBI')">RBI <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('batting', 'BB')">BB <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('batting', 'SO')">SO <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('batting', 'AVG')">AVG <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('batting', 'OBP')">OBP <span class="sort-icon">▼</span></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="pitching" class="tab-content">
+        <h2>Season Pitching Statistics</h2>
+        <div class="table-wrapper">
+            <table id="pitchingTable">
+                <thead>
+                    <tr id="pitchingHeaders">
+                        <th onclick="sortTable('pitching', 'Player')">Pitcher <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('pitching', 'G')">G <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('pitching', 'W')">W <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('pitching', 'IP')">IP <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('pitching', 'H')">H <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('pitching', 'R')">R <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('pitching', 'ER')">ER <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('pitching', 'BB')">BB <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('pitching', 'SO')">SO <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('pitching', 'Pitches')">Pitches <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('pitching', 'Strikes')">Strikes <span class="sort-icon">▼</span></th>
+                        <th onclick="sortTable('pitching', 'Strike Rate %')">Strike % <span class="sort-icon">▼</span></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="players" class="tab-content">
+        <div class="player-selector">
+            <label for="playerSelect" style="font-weight: 600; color: var(--text-main);">Select Roster Player:</label>
+            <select id="playerSelect" onchange="loadPlayerProfile()">
+                <option value="">-- Choose a Player --</option>
+            </select>
+        </div>
+
+        <div id="playerProfileData" style="display: none;">
+            <h2 id="profileName">Player Name</h2>
+            <div id="profileBlurb" class="player-blurb"></div>
+            
+            <div class="profile-grid">
+                <div class="profile-section" id="profileBattingSection">
+                    <h3>Batting Profile</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>GP</th><th>AB</th><th>R</th><th>H</th>
+                                    <th>RBI</th><th>BB</th><th>SO</th><th>AVG</th><th>OBP</th>
+                                </tr>
+                            </thead>
+                            <tbody id="profileBattingBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="profile-section" id="profilePitchingSection">
+                    <h3>Pitching Profile</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>G</th><th>W</th><th>IP</th><th>H</th><th>R</th>
+                                    <th>ER</th><th>BB</th><th>SO</th><th>Pitches</th>
+                                    <th>Strikes</th><th>Strike %</th>
+                                </tr>
+                            </thead>
+                            <tbody id="profilePitchingBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let battingData = [
+        {"Player": "Khloe U (12)", "GP": 20, "AB": 33, "R": 10, "H": 10, "RBI": 12, "BB": 8, "SO": 11, "AVG": 0.303, "OBP": 0.439},
+        {"Player": "Divya C (55)", "GP": 20, "AB": 32, "R": 6, "H": 11, "RBI": 9, "BB": 7, "SO": 16, "AVG": 0.344, "OBP": 0.462},
+        {"Player": "Kylie T (9)", "GP": 20, "AB": 32, "R": 8, "H": 7, "RBI": 8, "BB": 4, "SO": 13, "AVG": 0.219, "OBP": 0.306},
+        {"Player": "Mia U (1)", "GP": 20, "AB": 29, "R": 8, "H": 8, "RBI": 8, "BB": 9, "SO": 11, "AVG": 0.276, "OBP": 0.447},
+        {"Player": "Madi K (11)", "GP": 20, "AB": 28, "R": 17, "H": 8, "RBI": 7, "BB": 11, "SO": 10, "AVG": 0.286, "OBP": 0.487},
+        {"Player": "Braelei R (7)", "GP": 20, "AB": 28, "R": 5, "H": 4, "RBI": 6, "BB": 4, "SO": 7, "AVG": 0.143, "OBP": 0.250},
+        {"Player": "Raleigh H (3)", "GP": 20, "AB": 26, "R": 16, "H": 7, "RBI": 4, "BB": 14, "SO": 7, "AVG": 0.269, "OBP": 0.525},
+        {"Player": "Brantlee K (4)", "GP": 20, "AB": 23, "R": 12, "H": 6, "RBI": 3, "BB": 9, "SO": 11, "AVG": 0.261, "OBP": 0.469},
+        {"Player": "Ella P (17)", "GP": 17, "AB": 22, "R": 7, "H": 4, "RBI": 2, "BB": 5, "SO": 9, "AVG": 0.182, "OBP": 0.333},
+        {"Player": "Paulina V (2)", "GP": 16, "AB": 22, "R": 3, "H": 4, "RBI": 3, "BB": 4, "SO": 10, "AVG": 0.182, "OBP": 0.308},
+        {"Player": "Graysi C (13)", "GP": 20, "AB": 22, "R": 7, "H": 2, "RBI": 3, "BB": 5, "SO": 7, "AVG": 0.091, "OBP": 0.259},
+        {"Player": "Madison G (25)", "GP": 11, "AB": 21, "R": 9, "H": 6, "RBI": 4, "BB": 1, "SO": 7, "AVG": 0.286, "OBP": 0.318},
+        {"Player": "TEAM", "GP": 224, "AB": 318, "R": 108, "H": 77, "RBI": 69, "BB": 81, "SO": 119, "AVG": 0.242, "OBP": 0.396}
+    ];
+
+    let pitchingData = [
+        {"Player": "Madi K (11)", "G": 11, "W": 3, "IP": 32, "H": 16, "R": 25, "ER": 16, "BB": 36, "SO": 65, "Pitches": 666, "Strikes": 375, "Strike Rate %": 0.563},
+        {"Player": "Khloe U (12)", "G": 6, "W": 3, "IP": 17, "H": 13, "R": 16, "ER": 9, "BB": 17, "SO": 41, "Pitches": 407, "Strikes": 238, "Strike Rate %": 0.585},
+        {"Player": "Ella P (17)", "G": 8, "W": 2, "IP": 15, "H": 20, "R": 18, "ER": 12, "BB": 9, "SO": 28, "Pitches": 325, "Strikes": 199, "Strike Rate %": 0.612},
+        {"Player": "Kylie T (9)", "G": 1, "W": 0, "IP": 1, "H": 0, "R": 0, "ER": 0, "BB": 1, "SO": 3, "Pitches": 17, "Strikes": 11, "Strike Rate %": 0.647},
+        {"Player": "Divya C (55)", "G": 1, "W": 0, "IP": 1, "H": 0, "R": 0, "ER": 0, "BB": 1, "SO": 2, "Pitches": 17, "Strikes": 8, "Strike Rate %": 0.471},
+        {"Player": "TEAM", "G": 27, "W": 8, "IP": "-", "H": 49, "R": 59, "ER": 37, "BB": 64, "SO": 139, "Pitches": 1432, "Strikes": 831, "Strike Rate %": 0.580}
+    ];
+
+    const playerScoutingReports = {
+        "Divya C (55)": "The best pure hitter on the team. She posted a .344 AVG with the highest OBP among regulars not named Raleigh or Madi, showcasing steady contact all year. 16 strikeouts in 32 ABs is her one blemish, but the average speaks for itself.",
+        "Khloe U (12)": "The engine of the lineup. Leads the team in RBI (12) and is tied for the batting-average lead near the top. She quietly closed as a very effective pitcher too—41 strikeouts in just 17 innings (2.4 K/inning) is elite for this level.",
+        "Madi K (11)": "The workhorse and run-producer. She scored a team-high 17 runs and posted an outstanding .487 OBP. On the mound, she threw nearly double anyone else's innings (32) and racked up 65 Ks, though 36 walks show she was often pitching out of jams she created herself.",
+        "Raleigh H (3)": "The ultimate table-setter. A modest .269 average is almost beside the point—14 walks against only 7 strikeouts gives her a .525 OBP, best on the team by a wide margin. Disciplined and constantly on base.",
+        "Ella P (17)": "The wild card on the mound. 28 Ks in 15 innings shows real swing-and-miss stuff, but 20 hits allowed says she got hit hard on the days her command was off. A classic 'great when she's on, rough when she's not' profile.",
+        "Graysi C (13)": "An offensive soft spot this season (.091 AVG), but her modest strikeout total indicates it's more a case of not squaring the ball up than swing-and-miss issues. This is highly fixable with fundamental contact work.",
+        "Braelei R (7)": "Similar to Graysi, her .143 AVG is masked by a low strikeout rate. She puts the bat on the ball, meaning future improvement will come from better contact quality rather than simply overhauling plate discipline.",
+        "Mia U (1)": "A reliable presence who draws walks effectively. With 9 free passes leading to a strong .447 OBP, she knows her strike zone and contributes exceptionally well to the team's overall on-base strategy.",
+        "Kylie T (9)": "Showed solid patience and contact ability at the plate. She also made a brief but flawless appearance on the mound, striking out the side in her single inning of work.",
+        "Brantlee K (4)": "A highly effective contributor with a .261 average and a stellar .469 OBP. Drawing 9 walks in just 23 at-bats shows excellent patience and an understanding of the strike zone well beyond her years.",
+        "Paulina V (2)": "Has shown she can put the ball in play when needed. Her 10 strikeouts in 22 ABs suggest a bit of swing-and-miss to work on, but the foundational mechanics are there to build on.",
+        "Madison G (25)": "Highly efficient in limited action. A solid .286 average with a remarkable ability to avoid striking out (only 7 Ks), coupled with 9 runs scored in just 11 games played."
+    };
+
+    let sortState = {
+        batting: { column: null, asc: false },
+        pitching: { column: null, asc: false }
+    };
+
+    function formatNumber(num, isPercent = false) {
+        if (num === "-" || isNaN(num) || num === null) return num;
+        if (isPercent) return (num * 100).toFixed(1) + "%";
+        return Number.isInteger(num) ? num : num.toFixed(3);
+    }
+
+    function sortTable(type, column) {
+        const state = sortState[type];
+        const isString = column === 'Player';
+        
+        if (state.column === column) {
+            state.asc = !state.asc;
+        } else {
+            state.column = column;
+            state.asc = isString ? true : false; 
+        }
+
+        const data = type === 'batting' ? battingData : pitchingData;
+        const teamRow = data.find(d => d.Player === 'TEAM');
+        const players = data.filter(d => d.Player !== 'TEAM');
+
+        players.sort((a, b) => {
+            let valA = a[column];
+            let valB = b[column];
+
+            if (valA === '-' || valA === null) valA = -1;
+            if (valB === '-' || valB === null) valB = -1;
+
+            if (valA < valB) return state.asc ? -1 : 1;
+            if (valA > valB) return state.asc ? 1 : -1;
+            return 0;
+        });
+
+        if (type === 'batting') {
+            battingData = [...players, teamRow];
+        } else {
+            pitchingData = [...players, teamRow];
+        }
+
+        renderTables();
+        updateSortUI(type, column, state.asc);
+    }
+
+    function updateSortUI(type, column, isAsc) {
+        const headerRowId = type === 'batting' ? 'battingHeaders' : 'pitchingHeaders';
+        const headers = document.querySelectorAll(`#${headerRowId} th`);
+        
+        headers.forEach(th => {
+            th.classList.remove('active-sort');
+            const icon = th.querySelector('.sort-icon');
+            if (icon) icon.textContent = '▼';
+        });
+
+        const activeHeader = Array.from(headers).find(th => th.getAttribute('onclick').includes(`'${column}'`));
+        if (activeHeader) {
+            activeHeader.classList.add('active-sort');
+            const icon = activeHeader.querySelector('.sort-icon');
+            if (icon) icon.textContent = isAsc ? '▲' : '▼';
+        }
+    }
+
+    function renderTables() {
+        const battingBody = document.querySelector("#battingTable tbody");
+        battingBody.innerHTML = '';
+        battingData.forEach(row => {
+            const tr = document.createElement("tr");
+            if(row.Player === "TEAM") tr.className = "team-row";
+            tr.innerHTML = `
+                <td>${row.Player}</td><td>${row.GP}</td><td>${row.AB}</td>
+                <td>${row.R}</td><td>${row.H}</td><td>${row.RBI}</td>
+                <td>${row.BB}</td><td>${row.SO}</td>
+                <td>${formatNumber(row.AVG)}</td><td>${formatNumber(row.OBP)}</td>
+            `;
+            battingBody.appendChild(tr);
+        });
+
+        const pitchingBody = document.querySelector("#pitchingTable tbody");
+        pitchingBody.innerHTML = '';
+        pitchingData.forEach(row => {
+            const tr = document.createElement("tr");
+            if(row.Player === "TEAM") tr.className = "team-row";
+            tr.innerHTML = `
+                <td>${row.Player}</td><td>${row.G}</td><td>${row.W}</td>
+                <td>${row.IP}</td><td>${row.H}</td><td>${row.R}</td>
+                <td>${row.ER}</td><td>${row.BB}</td><td>${row.SO}</td>
+                <td>${row.Pitches}</td><td>${row.Strikes}</td>
+                <td>${formatNumber(row["Strike Rate %"], true)}</td>
+            `;
+            pitchingBody.appendChild(tr);
+        });
+    }
+
+    function populatePlayerDropdown() {
+        const select = document.getElementById("playerSelect");
+        const players = new Set();
+        battingData.forEach(d => { if (d.Player !== "TEAM") players.add(d.Player); });
+        pitchingData.forEach(d => { if (d.Player !== "TEAM") players.add(d.Player); });
+        
+        Array.from(players).sort().forEach(player => {
+            const option = document.createElement("option");
+            option.value = player;
+            option.textContent = player;
+            select.appendChild(option);
+        });
+    }
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    function loadPlayerProfile() {
+        const playerName = document.getElementById("playerSelect").value;
+        const profileDiv = document.getElementById("playerProfileData");
+        
+        if (!playerName) {
+            profileDiv.style.display = "none";
+            return;
+        }
+
+        document.getElementById("profileName").textContent = playerName;
+        
+        // Inject the blurb
+        const blurbText = playerScoutingReports[playerName] || "No scouting report available for this player.";
+        document.getElementById("profileBlurb").textContent = blurbText;
+        
+        const bStats = battingData.find(d => d.Player === playerName);
+        const pStats = pitchingData.find(d => d.Player === playerName);
+
+        const bSection = document.getElementById("profileBattingSection");
+        if (bStats) {
+            bSection.style.display = "block";
+            document.getElementById("profileBattingBody").innerHTML = `<tr>
+                <td>${bStats.GP}</td><td>${bStats.AB}</td><td>${bStats.R}</td>
+                <td>${bStats.H}</td><td>${bStats.RBI}</td><td>${bStats.BB}</td>
+                <td>${bStats.SO}</td><td>${formatNumber(bStats.AVG)}</td>
+                <td>${formatNumber(bStats.OBP)}</td>
+            </tr>`;
+        } else {
+            bSection.style.display = "none";
+        }
+
+        const pSection = document.getElementById("profilePitchingSection");
+        if (pStats) {
+            pSection.style.display = "block";
+            document.getElementById("profilePitchingBody").innerHTML = `<tr>
+                <td>${pStats.G}</td><td>${pStats.W}</td><td>${pStats.IP}</td>
+                <td>${pStats.H}</td><td>${pStats.R}</td><td>${pStats.ER}</td>
+                <td>${pStats.BB}</td><td>${pStats.SO}</td><td>${pStats.Pitches}</td>
+                <td>${pStats.Strikes}</td><td>${formatNumber(pStats["Strike Rate %"], true)}</td>
+            </tr>`;
+        } else {
+            pSection.style.display = "none";
+        }
+
+        profileDiv.style.display = "block";
+    }
+
+    // Initialize the page
+    window.onload = () => {
+        renderTables();
+        populatePlayerDropdown();
+    };
+</script>
+
+</body>
+</html>
